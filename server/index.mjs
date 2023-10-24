@@ -30,6 +30,24 @@ route.get("/:show/:season/:episode", async (request, response) => {
 
 });
 
+route.get("/:show/:season/:episode/:line", async (request, response) => {
+
+    try {
+        let query = { show: request.params.show, season: request.params.season, episode: request.params.episode }
+        let result = await Episode.findOne(query).exec()
+    
+        if (!result){
+            response.send("Not found").status(404);
+        }
+        else {
+            response.send(result.lines[request.params.line]).status(200);
+        }
+    } catch (error) {
+        console.error(error)
+    }
+
+});
+
 // Global error handling
 app.use((err, request, response, next) => {
   response.status(500).send("An internal server error has occured.")

@@ -19,15 +19,12 @@ try {
             newEpisode.stardate = obj.stardate;
             newEpisode.title = obj.title;
 
-            let lineNumber = 1;
             obj.scenes.forEach(scene => {
                 scene.dialogue.forEach((dialogue) => {
                     newEpisode.lines.push({
-                        number: lineNumber,
                         character: dialogue.character,
                         line: dialogue.line
                     })
-                    lineNumber++;
                 })
             });
             episodesToSave.push(newEpisode);
