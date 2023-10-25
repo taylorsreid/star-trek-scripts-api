@@ -9,9 +9,14 @@ const app = express();
 const route = express.Router();
 app.use(cors());
 app.use(express.json());
-app.use(route)
+app.use(route);
+app.use(express.static("./"));
 
-route.get("/random", async (request, response) => {
+route.get("/", (req, res) => {
+    res.redirect("./index.htm")
+})
+
+route.get("/api/random", async (request, response) => {
     let docCount = await Episode.countDocuments().exec()
     let randomNumber = Math.floor(Math.random() * docCount)
     let randomEpisode = await Episode.findOne().skip(randomNumber).exec();
@@ -19,7 +24,7 @@ route.get("/random", async (request, response) => {
     response.send(randomEpisode.lines[randomLineNumber])
 });
 
-route.get("/:show/:season/:episode", async (request, response) => {
+route.get("/api/:show/:season/:episode", async (request, response) => {
 
     try {
         let query = { show: request.params.show, season: request.params.season, episode: request.params.episode }
@@ -37,7 +42,7 @@ route.get("/:show/:season/:episode", async (request, response) => {
 
 });
 
-route.get("/:show/:season/:episode/:line", async (request, response) => {
+route.get("/api/:show/:season/:episode/:line", async (request, response) => {
 
     try {
         let query = { show: request.params.show, season: request.params.season, episode: request.params.episode }
@@ -57,7 +62,8 @@ route.get("/:show/:season/:episode/:line", async (request, response) => {
 
 // Global error handling
 app.use((err, request, response, next) => {
-  response.status(500).send("An internal server error has occured.")
+//   response.status(500).send("An internal server error has occured.")
+    response.status(500).send(err)
 })
 
 // start the Express server
