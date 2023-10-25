@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import cors from "cors";
 import "./loadEnvironment.mjs";
 import "express-async-errors";
@@ -11,6 +11,13 @@ app.use(cors());
 app.use(express.json());
 app.use(route)
 
+route.get("/random", async (request, response) => {
+    let docCount = await Episode.countDocuments().exec()
+    let randomNumber = Math.floor(Math.random() * docCount)
+    let randomEpisode = await Episode.findOne().skip(randomNumber).exec();
+    let randomLineNumber = Math.floor(Math.random() * randomEpisode.lines.length)
+    response.send(randomEpisode.lines[randomLineNumber])
+});
 
 route.get("/:show/:season/:episode", async (request, response) => {
 
