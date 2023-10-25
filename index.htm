@@ -3,12 +3,54 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>Star Trek Scripts API</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
+
+        <style>
+            h1, h2 {
+                text-align: center;
+            }
+            .content {
+                margin: auto;
+                width: 50%;
+            }
+        </style>
     </head>
     <body>
-        <h1>Hello World</h1>
+        <h1>Star Trek Scripts API</h1>
+        <div class="content">
+            <p>This is a simple read-only API to demonstrate the usage of Express.js + MongoDB Atlas + Mongoose.</p>
+            <p>This API currently delivers JSON script lines from Star Trek: The Next Generation, Star Trek: Deep Space 9, and Star Trek: Voyager. Other shows may be added at a later date.</p>
+            <hr>
+            <h2>Endpoints</h2>
+            <p>There are currently 3 endpoints:</p>
+            <h3>Random:</h3>
+            <p><a href="https://taylorsreid.com/st/api/random">taylorsreid.com/st/api/random</a> serves a random Star Trek line from the database.</p>
+            <h3>Episode:</h3>
+            <p>
+                taylorsreid.com/st/api/&lt;3_LETTER_SHOW_CODE&gt;/&lt;SEASON_NUMBER&gt;/&lt;EPISODE_NUMBER&gt; 
+                returns the script for an entire episode. 
+            </p>
+            <p>
+                Ex: <a href="https://taylorsreid.com/st/api/tng/1/1">taylorsreid.com/st/api/tng/1/1</a> 
+                returns the entire script for Star Trek: The Next Generation, S01E01 (Encounter at Farpoint).
+            </p>
+            <h3>Line:</h3>
+            <p>
+                taylorsreid.com/st/api/&lt;3_LETTER_SHOW_CODE&gt;/&lt;SEASON_NUMBER&gt;/&lt;EPISODE_NUMBER&gt;/&lt;LINE_NUMBER 
+                returns a single line from an episode.
+            </p>
+            <p>
+                Ex: <a href="https://taylorsreid.com/st/api/tng/4/20/206">taylorsreid.com/st/api/tng/4/20/206</a> 
+                returns {"character":"WORF","line":"Sir, I protest. I am not a merry man.","_id":"6537b6d53e11e59438f860fe"}.
+            </p>
+            <hr>
+            <h2>Notes:</h2>
+            <p>Currently supported show codes are: "tng", "ds9", and "voy".</p>
+            <p>Please note that many seasons do not have an episode 2 because episode 1 was double length and counted as episode 1 and 2 by the show's creators.</p>
+        </div>
+        
     </body>
 </html>
