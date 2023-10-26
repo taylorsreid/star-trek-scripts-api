@@ -4,6 +4,7 @@ import "./loadEnvironment.mjs";
 import "express-async-errors";
 import { Episode } from "./models.mjs";
 
+const HOST = process.env.HOST;
 const PORT = process.env.PORT;
 const app = express();
 const route = express.Router();
@@ -62,11 +63,10 @@ route.get("/api/:show/:season/:episode/:line", async (request, response) => {
 
 // Global error handling
 app.use((err, request, response, next) => {
-//   response.status(500).send("An internal server error has occured.")
-    response.status(500).send(err)
+  response.status(500).send("An internal server error has occured.")
 })
 
 // start the Express server
-app.listen(PORT, () => {
+app.listen(PORT, HOST, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
