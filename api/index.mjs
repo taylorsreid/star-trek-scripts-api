@@ -68,5 +68,6 @@ app.use((err, request, response, next) => {
 
 // start the Express server
 app.listen(PORT, HOST, () => {
-  console.log(`Server is running on port: ${PORT}`);
+    console.log(`Server is running on host: ${HOST}`);
+    console.log(`Server is running on port: ${PORT}`);
 });
