@@ -83,10 +83,11 @@ app.listen(PORT, HOST, () => {
 
 // basic access logging function that saves to MongoDB via Mongoose
 async function logAccess(request) {
-    new AccessEvent({
-        ip: request.socket.remoteAddress,
-        timestamp: Date.now(),
-        ua: request.headers['user-agent'],
-        params: request.params
-    }).save()
+    console.log(request.headers)
+    // new AccessEvent({
+    //     ip: request.socket.remoteAddress,
+    //     timestamp: Date.now(),
+    //     ua: request.headers['user-agent'],
+    //     params: request.params
+    // }).save()
 }
