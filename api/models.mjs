@@ -1,5 +1,21 @@
 import mongoose from "./mongoose.mjs";
-import { EpisodeSchema } from "./schemas.mjs"
+
+const LineSchema = new mongoose.Schema({
+    number: Number,
+    character: String,
+    line: String 
+})
+
+const EpisodeSchema = new mongoose.Schema({
+    show: String,
+    season: Number,
+    episode: Number,
+    number: Number,
+    airdate: Number,
+    stardate: String,
+    title: String,
+    lines: [LineSchema]
+})
 
 const Episode = mongoose.model('episode', EpisodeSchema)
 
