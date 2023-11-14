@@ -17,6 +17,14 @@ const EpisodeSchema = new mongoose.Schema({
     lines: [LineSchema]
 })
 
-const Episode = mongoose.model('episode', EpisodeSchema)
+const AccessEventSchema = new mongoose.Schema({
+    ip: String,
+    timestamp: Date,
+    ua: String,
+    params: Map
+})
 
-export {Episode}
+const Episode = mongoose.model('episode', EpisodeSchema)
+const AccessEvent = mongoose.model('accessEvent', AccessEventSchema)
+
+export { Episode, AccessEvent}

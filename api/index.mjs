@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import "./loadEnvironment.mjs";
 import "express-async-errors";
-import { Episode } from "./models.mjs";
+import { AccessEvent, Episode } from "./models.mjs";
 
 const HOST = process.env.HOST;
 const PORT = process.env.PORT;
@@ -13,11 +13,15 @@ app.use(express.json());
 app.use(route);
 app.use(express.static("./"));
 
-route.get("/", (req, res) => {
-    res.redirect("./index.htm")
+route.get("/", (request, response) => {
+    logAccess(request)
+    response.redirect("./index.htm")
 })
 
 route.get("/api/random", async (request, response) => {
+
+    logAccess(request)
+
     let docCount = await Episode.countDocuments().exec()
     let randomNumber = Math.floor(Math.random() * docCount)
     let randomEpisode = await Episode.findOne().skip(randomNumber).exec();
@@ -26,6 +30,8 @@ route.get("/api/random", async (request, response) => {
 });
 
 route.get("/api/:show/:season/:episode", async (request, response) => {
+
+    logAccess(request)
 
     try {
         let query = { show: request.params.show, season: request.params.season, episode: request.params.episode }
@@ -45,6 +51,8 @@ route.get("/api/:show/:season/:episode", async (request, response) => {
 
 route.get("/api/:show/:season/:episode/:line", async (request, response) => {
 
+    logAccess(request)
+
     try {
         let query = { show: request.params.show, season: request.params.season, episode: request.params.episode }
         let result = await Episode.findOne(query).exec()
@@ -63,7 +71,8 @@ route.get("/api/:show/:season/:episode/:line", async (request, response) => {
 
 // Global error handling
 app.use((err, request, response, next) => {
-  response.status(500).send("An internal server error has occured.")
+    console.error(err)
+    response.status(500).send("An internal server error has occured.")
 })
 
 // start the Express server
@@ -71,3 +80,13 @@ app.listen(PORT, HOST, () => {
     console.log(`Server is running on host: ${HOST}`);
     console.log(`Server is running on port: ${PORT}`);
 });
+
+// basic access logging function that saves to MongoDB via Mongoose
+async function logAccess(request) {
+    new AccessEvent({
+        ip: request.socket.remoteAddress,
+        timestamp: Date.now(),
+        ua: request.headers['user-agent'],
+        params: request.params
+    }).save()
+}
