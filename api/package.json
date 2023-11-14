@@ -1,6 +1,6 @@
 {
   "name": "star-trek-scripts-api",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An API  using Express.js and MongoDB to retrieve Star Trek Scripts.",
   "main": "index.js",
   "scripts": {
